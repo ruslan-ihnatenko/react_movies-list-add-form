@@ -3,7 +3,7 @@ import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
 interface Props {
-  onAdd: ({ ...data }: Movie) => void;
+  onAdd: (data: Movie) => void;
 }
 
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
@@ -57,7 +57,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
     setTitleError(true);
     // setDescriptionError(true);
-    setImdbIdError(true);
+    setImgUrlError(true);
     setImdbUrlError(true);
     setImdbIdError(true);
   };
@@ -65,7 +65,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!title || !imdbUrl || !imgUrl || !imdbId) {
+    if (!title.trim() || !imdbUrl.trim() || !imgUrl.trim() || !imdbId.trim()) {
       return;
     }
 
