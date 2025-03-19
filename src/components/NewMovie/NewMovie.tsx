@@ -25,7 +25,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleTitleChange = (newValue: string) => {
     setTitle(newValue);
-    setTitleError(!newValue);
+    setTitleError(!newValue.trim());
   };
 
   const handleDescriptionChange = (newValue: string) => {
@@ -35,17 +35,17 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
 
   const handleImgUrlChange = (newValue: string) => {
     setImgUrl(newValue);
-    setImgUrlError(!newValue);
+    setImgUrlError(!newValue.trim());
   };
 
   const handleImdbUrlChange = (newValue: string) => {
     setImdbUrl(newValue);
-    setImdbUrlError(!newValue);
+    setImdbUrlError(!newValue.trim());
   };
 
   const handleImdbIdChange = (newValue: string) => {
     setImdbId(newValue);
-    setImdbIdError(!newValue);
+    setImdbIdError(!newValue.trim());
   };
 
   const reset = () => {
@@ -55,17 +55,25 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     setImdbUrl('');
     setImgUrl('');
 
-    setTitleError(true);
+    setTitleError(false);
     // setDescriptionError(true);
-    setImgUrlError(true);
-    setImdbUrlError(true);
-    setImdbIdError(true);
+    setImgUrlError(false);
+    setImdbUrlError(false);
+    setImdbIdError(false);
+  };
+
+  const urlValidation = (value: string) => {
+    const pattern =
+      // eslint-disable-next-line max-len
+      /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+    return pattern.test(value);
   };
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!title.trim() || !imdbUrl.trim() || !imgUrl.trim() || !imdbId.trim()) {
+    if (!title || !imdbUrl || !imgUrl || !imdbId) {
       return;
     }
 
@@ -106,6 +114,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={handleImgUrlChange}
+        validate={urlValidation}
         required
       />
 
@@ -114,6 +123,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={handleImdbUrlChange}
+        validate={urlValidation}
         required
       />
 
